@@ -1,9 +1,10 @@
 
-package com.daw.agrot.controllers;
+package com.daw.parcelas.controller;
 
 import com.daw.agrot.entities.Parcela;
 import com.daw.agrot.entities.TipoCultivo;
-import com.daw.agrot.services.ParcelaService;
+import com.daw.agrot.service.ParcelaService;
+import com.daw.parcelas.service.ParcelaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +19,7 @@ public class ParcelaController {
 
     private final ParcelaService parcelaService;
 
-    public ParcelaController(ParcelaService parcelaService) {
+    public ParcelaController(com.daw.parcelas.service.ParcelaService parcelaService) {
         this.parcelaService = parcelaService;
     }
 
