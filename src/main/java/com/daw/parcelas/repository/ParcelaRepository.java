@@ -16,4 +16,5 @@ import java.util.function.Function;
 public class ParcelaRepository extends JpaRepository<Parcela, Long> {
 
 
+
 }
