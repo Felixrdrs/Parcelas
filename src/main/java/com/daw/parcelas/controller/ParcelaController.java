@@ -18,7 +18,7 @@ public class ParcelaController {
 
     private final ParcelaService parcelaService;
 
-    public ParcelaController(com.daw.parcelas.service.ParcelaService parcelaService) {
+    public ParcelaController(ParcelaService parcelaService) {
         this.parcelaService = parcelaService;
     }
 
@@ -31,18 +31,18 @@ public class ParcelaController {
         return "parcelas/lista";
     }
 
-    @GetMapping("/{id}")
-    public String detalle(@PathVariable Long id, Model model) {
-        var parcela = parcelaService.buscarPorId(id);
-        model.addAttribute("parcela", parcela);
-        return "parcelas/detalle";
-    }
-
     @GetMapping("/nueva")
     public String nueva(Model model) {
         model.addAttribute("parcela", new Parcela());
         model.addAttribute("tipos", TipoCultivo.values());
         return "parcelas/formulario";
+    }
+
+    @GetMapping("/{id}")
+    public String detalle(@PathVariable Long id, Model model) {
+        var parcela = parcelaService.buscarPorId(id);
+        model.addAttribute("parcela", parcela);
+        return "parcelas/detalle";
     }
 
     @PostMapping
