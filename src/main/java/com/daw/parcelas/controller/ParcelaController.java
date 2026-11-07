@@ -1,9 +1,8 @@
 
 package com.daw.parcelas.controller;
 
-import com.daw.agrot.entities.Parcela;
-import com.daw.agrot.entities.TipoCultivo;
-import com.daw.agrot.service.ParcelaService;
+import com.daw.parcelas.model.Parcela;
+import com.daw.parcelas.model.TipoCultivo;
 import com.daw.parcelas.service.ParcelaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

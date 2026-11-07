@@ -1,9 +1,9 @@
 
-package com.daw.agrot.service;
+package com.daw.parcelas.service;
 
-import com.daw.agrot.entities.Parcela;
-import com.daw.agrot.repository.ParcelaRepository;
-import com.daw.parcelas.service.ParcelaService;
+
+import com.daw.parcelas.model.Parcela;
+import com.daw.parcelas.repository.ParcelaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,28 +20,27 @@ public class ParcelaServiceImpl implements ParcelaService {
     }
 
     @Override
-    public List<Parcela> getAllParcelas() {
-        return parcelaRepository.findAll();
-    }
+    public List<Parcela> listarTodas() {
+        return parcelaRepository.findAll();    }
 
     @Override
-    public Parcela getParcelaById(Long id) {
+    public Parcela buscarPorId(Long id) {
         return parcelaRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "No existe la parcela con id " + id));
     }
 
     @Override
-    public void createParcela(Parcela parcela) {
-        parcelaRepository.save(parcela);
+    public Parcela guardar(Parcela parcela) {
+        return parcelaRepository.save(parcela);
     }
 
     @Override
-    public void deleteParcelaById(Long id) {
+    public void eliminar(Long id) {
         parcelaRepository.deleteById(id);
     }
 }
 
 
 
-}
+
