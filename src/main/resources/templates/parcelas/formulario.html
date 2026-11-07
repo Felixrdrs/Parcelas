@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de parcela</title>
+</head>
+<body>
+
+<h1>Nueva parcela</h1>
+
+<form th:action="@{/parcelas}" th:object="${parcela}" method="post">
+
+    <label for="nombre">Nombre:</label>
+    <input type="text" th:field="*{nombre}" required>
+
+    <br><br>
+
+    <label for="ubicacion">Ubicación:</label>
+    <input type="text" th:field="*{ubicacion}" required>
+
+    <br><br>
+
+    <label for="superficie">Superficie (ha):</label>
+    <input type="number" th:field="*{superficie}" step="0.01" min="0.01" required>
+
+    <br><br>
+
+    <label for="tipoCultivo">Cultivo:</label>
+    <select th:field="*{tipoCultivo}" required>
+        <option value="">-- Selecciona --</option>
+
+        <option th:each="t : ${tipos}"
+                th:value="${t}"
+                th:text="${t.etiqueta}">
+        </option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Guardar</button>
+
+    <a th:href="@{/parcelas}">Cancelar</a>
+
+</form>
+
+</body>
+</html>
