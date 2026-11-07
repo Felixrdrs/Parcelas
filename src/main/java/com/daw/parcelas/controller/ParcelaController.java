@@ -1,9 +1,8 @@
 
 package com.daw.parcelas.controller;
 
-import com.daw.agrot.entities.Parcela;
-import com.daw.agrot.entities.TipoCultivo;
-import com.daw.agrot.service.ParcelaService;
+import com.daw.parcelas.model.Parcela;
+import com.daw.parcelas.model.TipoCultivo;
 import com.daw.parcelas.service.ParcelaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +18,7 @@ public class ParcelaController {
 
     private final ParcelaService parcelaService;
 
-    public ParcelaController(com.daw.parcelas.service.ParcelaService parcelaService) {
+    public ParcelaController(ParcelaService parcelaService) {
         this.parcelaService = parcelaService;
     }
 
@@ -32,18 +31,18 @@ public class ParcelaController {
         return "parcelas/lista";
     }
 
-    @GetMapping("/{id}")
-    public String detalle(@PathVariable Long id, Model model) {
-        var parcela = parcelaService.buscarPorId(id);
-        model.addAttribute("parcela", parcela);
-        return "parcelas/detalle";
-    }
-
     @GetMapping("/nueva")
     public String nueva(Model model) {
         model.addAttribute("parcela", new Parcela());
         model.addAttribute("tipos", TipoCultivo.values());
         return "parcelas/formulario";
+    }
+
+    @GetMapping("/{id}")
+    public String detalle(@PathVariable Long id, Model model) {
+        var parcela = parcelaService.buscarPorId(id);
+        model.addAttribute("parcela", parcela);
+        return "parcelas/detalle";
     }
 
     @PostMapping
@@ -58,4 +57,5 @@ public class ParcelaController {
         return "redirect:/parcelas";
     }
 }
+
 
