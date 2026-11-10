@@ -36,6 +36,7 @@ public class ParcelaController {
         model.addAttribute("parcela", new Parcela());
         model.addAttribute("tipos", TipoCultivo.values());
         return "parcelas/formulario";
+
     }
 
     @GetMapping("/{id}")
