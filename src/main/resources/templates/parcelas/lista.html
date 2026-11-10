@@ -59,7 +59,7 @@
 
         <tr th:each="p : ${parcelas}">
             <td>
-                <!-- Enlace corregido al detalle de la parcela -->
+
                 <a th:href="@{/parcelas/{id}(id=${p.id})}" th:text="${p.nombre}">Nombre</a>
             </td>
 
