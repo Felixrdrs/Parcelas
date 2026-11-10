@@ -18,11 +18,14 @@ public class Parcela {
 
     private String nombre;
 
+    @Column(name = "ubicacion")
     private String ubicacion;
 
+    @Column(nullable = true)
     private Double superficie;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, name = "tipo_cultivo")
     private TipoCultivo tipoCultivo;
 }
 
