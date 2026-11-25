@@ -11,7 +11,7 @@
 <div class="container mt-4">
     <div class="d-flex flex-wrap align-items-center justify-content-center lg:justify-content-start">
         <ul class="nav col-12 lg:col-auto lg:me-auto mb-2 justify-content-center md:mb-0">
-            <li><a th:href="@{/parcelas}" class="nav-link px-2 theme-secondary">Parcelas</a></li>
+            <li><a th:href="@{/templates/templates/parcelas}" class="nav-link px-2 theme-secondary">Parcelas</a></li>
         </ul>
         <form class="col-12 lg:col-auto mb-3 lg:mb-0 lg:me-3" role="search">
             <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
@@ -32,7 +32,7 @@
 <div class="container mt-4" style="max-width: 600px;">
     <h3>Formulario de parcela</h3>
 
-    <form th:action="@{/parcelas}" th:object="${parcela}" method="post">
+    <form th:action="@{/templates/templates/parcelas}" th:object="${parcela}" method="post">
 
         <div class="mb-3">
             <label for="nombre" class="form-label">Nombre:</label>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="d-flex justify-content-between align-items-center mt-4">
-            <a th:href="@{/parcelas}" class="btn btn-secondary">Cancelar</a>
+            <a th:href="@{/templates/templates/parcelas}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-solid theme-primary">Guardar</button>
         </div>
 
