@@ -1,6 +1,7 @@
 package com.daw.parcelas.service;
 
 
+
 import com.daw.parcelas.model.Sensor;
 import com.daw.parcelas.model.TipoSensor;
 import com.daw.parcelas.repository.SensorRepository;
@@ -32,27 +33,8 @@ public class SensorServiceImpl implements SensorService {
         }
     }
 
-    @Override
-    public Sensor getSensorById(Long id) {
-        return null;
-    }
 
     @Override
-    public List<Sensor> getAllSensorsTemperatura() {
-        return List.of();
-    }
-
-    @Override
-    public void saveSensor(Sensor sensor) {
-
-    }
-
-    @Override
-    public void deleteSensorById(Long id) {
-
-    }
-
-    /*@Override
     public Sensor getSensorById(Long id) {
         return sensorRepository.findById(id)
                 .orElseThrow(() ->
@@ -74,5 +56,5 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public void deleteSensorById(Long id) {
         sensorRepository.deleteById(id);
-    }*/
+    }
 }
