@@ -1,6 +1,6 @@
 package com.daw.parcelas.service;
 
-import com.daw.parcelas.entities.Sensor;
+import com.daw.parcelas.model.Sensor;
 
 import java.util.List;
 
