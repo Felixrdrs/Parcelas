@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ParcelaService {
 
-    List<Parcela> listarTodas();
+    List<Parcela> getAllParcels();
     Parcela buscarPorId(Long id);
     Parcela guardar(Parcela parcela);
     void eliminar(Long id);

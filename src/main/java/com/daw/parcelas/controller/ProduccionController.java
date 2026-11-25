@@ -1,13 +1,13 @@
 package com.daw.parcelas.controller;
 
 
-import ch.qos.logback.core.model.Model;
 import com.daw.parcelas.model.Calidad;
 import com.daw.parcelas.model.Produccion;
 import com.daw.parcelas.service.ParcelaService;
 import com.daw.parcelas.service.ProduccionService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +40,7 @@ public class ProduccionController {
     public String newProduccion(Model model) {
         model.addAttribute("produccion", new Produccion());
         model.addAttribute("calidades", Calidad.values());
-        model.addAttribute("parcelas", parcelaService.getlistarTodas());
+        model.addAttribute("parcelas", parcelaService.getAllParcels());
         return "producciones/formulario";
     }
 
@@ -56,7 +56,7 @@ public class ProduccionController {
         }
 
         //Mete la clave ajena de parcela en la producción antes de guardarla
-        produccion.setParcela(parcelaService.getbuscarporId(parcelaId));
+        produccion.setParcela(parcelaService.buscarPorId(parcelaId));
 
         //Guarda la producción en la base de datos
         produccionService.saveProduccion(produccion);
