@@ -1,4 +1,4 @@
-package com.daw.parcelas.entities;
+package com.daw.parcelas.model;
 
 public enum TipoSensor {
     TEMPERATURA,

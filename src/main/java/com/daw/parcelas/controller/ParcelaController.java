@@ -31,7 +31,7 @@ public class ParcelaController {
         return "parcelas/lista";
     }
 
-    @GetMapping("/nueva")
+    @GetMapping("/nuevo")
     public String nueva(Model model) {
         model.addAttribute("parcela", new Parcela());
         model.addAttribute("tipos", TipoCultivo.values());

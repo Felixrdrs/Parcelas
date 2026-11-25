@@ -1,0 +1,25 @@
+:root {
+    --agro-verde: #2e7d32;
+    --agro-verde-oscuro: #1b5e20;
+}
+
+.agro-navbar {
+    background-color: var(--agro-verde-oscuro) !important;
+}
+
+.sidebar .nav-link.active {
+    color: #fff !important;
+    background-color: var(--agro-verde) !important;
+    border-radius: 0.375rem;
+}
+
+.sidebar .nav-link {
+    color: #333;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.2rem;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--agro-verde);
+}

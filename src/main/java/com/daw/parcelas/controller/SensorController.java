@@ -3,7 +3,7 @@ package com.daw.parcelas.controller;
 
 import com.daw.parcelas.model.Sensor;
 import com.daw.parcelas.model.TipoSensor;
-import com.daw.parcelas.services.SensorService;
+import com.daw.parcelas.service.SensorService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
