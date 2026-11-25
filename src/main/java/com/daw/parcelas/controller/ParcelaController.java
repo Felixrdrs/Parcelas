@@ -25,7 +25,7 @@ public class ParcelaController {
     @GetMapping
     public String listar(Model model) {
         // Obtener las parcelas
-        var parcelas = parcelaService.listarTodas();
+        var parcelas = parcelaService.getAllParcels();
         // Pasárselas a la vista
         model.addAttribute("parcelas", parcelas);
         return "parcelas/lista";

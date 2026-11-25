@@ -20,8 +20,9 @@ public class ParcelaServiceImpl implements ParcelaService {
     }
 
     @Override
-    public List<Parcela> listarTodas() {
-        return parcelaRepository.findAll();    }
+    public List<Parcela> getAllParcels() {
+        return List.of();
+    }
 
     @Override
     public Parcela buscarPorId(Long id) {
