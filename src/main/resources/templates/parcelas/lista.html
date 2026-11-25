@@ -11,7 +11,7 @@
 <div class="container mt-4">
     <div class="d-flex flex-wrap align-items-center justify-content-center lg:justify-content-start">
         <ul class="nav col-12 lg:col-auto lg:me-auto mb-2 justify-content-center md:mb-0">
-            <li><a th:href="@{/parcelas}" class="nav-link px-2 theme-secondary">Parcelas</a></li>
+            <li><a th:href="@{/templates/templates/parcelas}" class="nav-link px-2 theme-secondary">Parcelas</a></li>
         </ul>
         <form class="col-12 lg:col-auto mb-3 lg:mb-0 lg:me-3" role="search">
             <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
@@ -33,7 +33,7 @@
 
     <div class="d-flex justify-content-between align-items-center">
         <h3>Lista de parcelas</h3>
-        <a th:href="@{/parcelas/nueva}" type="button" class="btn btn-solid theme-primary">
+        <a th:href="@{/templates/templates/nueva}" type="button" class="btn btn-solid theme-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
             </svg>
@@ -60,7 +60,7 @@
         <tr th:each="p : ${parcelas}">
             <td>
 
-                <a th:href="@{/parcelas/{id}(id=${p.id})}" th:text="${p.nombre}">Nombre</a>
+                <a th:href="@{/templates/templates/{id}(id=${p.id})}" th:text="${p.nombre}">Nombre</a>
             </td>
 
             <td th:text="${p.ubicacion}"></td>
@@ -68,7 +68,7 @@
             <td th:text="${p.tipoCultivo?.etiqueta}"></td>
 
             <td>
-                <form th:action="@{/parcelas/{id}/eliminar(id=${p.id})}"
+                <form th:action="@{/templates/templates/{id}/eliminar(id=${p.id})}"
                       method="post"
                       onsubmit="return confirm('¿Seguro que quieres eliminar esta parcela?');"
                       style="display: inline;">
