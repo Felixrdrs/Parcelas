@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 1. Llamamos al head de tu archivo común real -->
+<head th:replace="~{fragmentos/comunes :: head('Panel')}"></head>
+<body class="bg-light">
+
+<!-- 2. Barra superior común -->
+<nav th:replace="~{fragmentos/comunes :: navbar}"></nav>
+
+<div class="d-flex min-vh-100">
+    <!-- 3. Menú lateral común -->
+    <aside th:replace="~{fragmentos/comunes :: sidebar('dashboard')}"></aside>
+
+    <!-- 4. Contenido principal -->
+    <main class="app-main flex-grow-1 p-3 p-lg-4">
+
+        <!-- Cabecera moderna con tu título -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-dark">Dashboard JJ</h2>
+            <span class="badge bg-white text-muted border px-3 py-2 rounded-pill shadow-sm small">
+                <i class="bi bi-clock text-success me-1"></i>
+                <span th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}">09/11/2026 19:40</span>
+            </span>
+        </div>
+
+        <!-- Contenedor de tarjetas (mantiene tu th:replace exacto) -->
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div th:replace="~{fragmentos/comunes :: tarjeta('Superficie total de parcelas (ha)', ${superficieTotal}, 'bi-vector-pen', 'danger')}"></div>
+            </div>
+        </div>
+
+        <!-- 5. Pie de página común -->
+        <footer th:replace="~{fragmentos/comunes :: footer}"></footer>
+    </main>
+</div>
+
+<!-- 6. Scripts comunes -->
+<th:block th:replace="~{fragmentos/comunes :: scripts}"></th:block>
+</body>
+</html>
