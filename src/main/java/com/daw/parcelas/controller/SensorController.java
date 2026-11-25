@@ -1,8 +1,8 @@
 package com.daw.parcelas.controller;
 
 
-import com.daw.parcelas.entities.Sensor;
-import com.daw.parcelas.entities.TipoSensor;
+import com.daw.parcelas.model.Sensor;
+import com.daw.parcelas.model.TipoSensor;
 import com.daw.parcelas.services.SensorService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

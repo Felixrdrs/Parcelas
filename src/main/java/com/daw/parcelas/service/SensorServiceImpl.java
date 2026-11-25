@@ -1,10 +1,9 @@
 package com.daw.parcelas.service;
 
 
-import com.daw.parcelas.entities.Sensor;
-import com.daw.parcelas.entities.TipoSensor;
+import com.daw.parcelas.model.Sensor;
+import com.daw.parcelas.model.TipoSensor;
 import com.daw.parcelas.repository.SensorRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

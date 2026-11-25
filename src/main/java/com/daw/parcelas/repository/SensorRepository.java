@@ -1,8 +1,8 @@
 package com.daw.parcelas.repository;
 
 
-import com.daw.parcelas.entities.Sensor;
-import com.daw.parcelas.entities.TipoSensor;
+import com.daw.parcelas.model.Sensor;
+import com.daw.parcelas.model.TipoSensor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
