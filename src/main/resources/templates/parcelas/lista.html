@@ -1,42 +1,92 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragmentos/base :: pagina(~{::title}, 'parcelas', ~{::section})}">
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Parcelas · AgroTech</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <title>Lista de Parcelas</title>
 </head>
 <body>
-<section>
-    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Listado de Parcelas</h1>
-        <a th:href="@{/parcelas/nuevo}" class="btn btn-sm btn-success">
-            <i class="bi bi-plus-lg me-1"></i> Nueva Parcela
+
+<div class="container mt-4">
+    <div class="d-flex flex-wrap align-items-center justify-content-center lg:justify-content-start">
+        <ul class="nav col-12 lg:col-auto lg:me-auto mb-2 justify-content-center md:mb-0">
+            <li><a th:href="@{/templates/templates/parcelas}" class="nav-link px-2 theme-secondary">Parcelas</a></li>
+        </ul>
+        <form class="col-12 lg:col-auto mb-3 lg:mb-0 lg:me-3" role="search">
+            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+        </form>
+        <div class="text-end">
+            <div class="menu">
+                <a class="menu-item" href="#">New project...</a>
+                <a class="menu-item" href="#">Settings</a>
+                <a class="menu-item" href="#">Profile</a>
+                <hr class="menu-divider">
+                <a class="menu-item" href="#">Sign out</a>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline theme-secondary">Search</button>
+    </div>
+</div>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>Lista de parcelas</h3>
+        <a th:href="@{/templates/templates/nueva}" type="button" class="btn btn-solid theme-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>
         </a>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Ubicación</th>
-                <th>Superficie (ha)</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="p : ${parcelas}">
-                <td th:text="${p.id}">1</td>
-                <td th:text="${p.nombre}">Sector Norte</td>
-                <td th:text="${p.ubicacion}">Finca Principal</td>
-                <td th:text="${p.superficie}">12.5</td>
-                <td>
-                    <a th:href="@{/parcelas/{id}(id=${p.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</section>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Ubicación</th>
+            <th>Superficie (ha)</th>
+            <th>Cultivo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr th:if="${parcelas.isEmpty()}">
+            <td colspan="5" class="text-center">No hay parcelas disponibles</td>
+        </tr>
+
+        <tr th:each="p : ${parcelas}">
+            <td>
+
+                <a th:href="@{/templates/templates/{id}(id=${p.id})}" th:text="${p.nombre}">Nombre</a>
+            </td>
+
+            <td th:text="${p.ubicacion}"></td>
+            <td th:text="${p.superficie}"></td>
+            <td th:text="${p.tipoCultivo?.etiqueta}"></td>
+
+            <td>
+                <form th:action="@{/templates/templates/{id}/eliminar(id=${p.id})}"
+                      method="post"
+                      onsubmit="return confirm('¿Seguro que quieres eliminar esta parcela?');"
+                      style="display: inline;">
+                    <button type="submit" class="btn-solid theme-danger" style="border: none; cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                        </svg>
+                    </button>
+                </form>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -34,26 +34,6 @@ public class SensorServiceImpl implements SensorService {
 
     @Override
     public Sensor getSensorById(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<Sensor> getAllSensorsTemperatura() {
-        return List.of();
-    }
-
-    @Override
-    public void saveSensor(Sensor sensor) {
-
-    }
-
-    @Override
-    public void deleteSensorById(Long id) {
-
-    }
-
-    /*@Override
-    public Sensor getSensorById(Long id) {
         return sensorRepository.findById(id)
                 .orElseThrow(() ->
                         new RecursoNoEncontradoException("Sensor con id " +
@@ -74,5 +54,5 @@ public class SensorServiceImpl implements SensorService {
     @Override
     public void deleteSensorById(Long id) {
         sensorRepository.deleteById(id);
-    }*/
+    }
 }
