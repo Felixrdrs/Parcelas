@@ -21,7 +21,7 @@ public class ParcelaServiceImpl implements ParcelaService {
 
     @Override
     public List<Parcela> getAllParcels() {
-        return List.of();
+        return parcelaRepository.findAll();
     }
 
     @Override

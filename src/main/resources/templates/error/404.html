@@ -1,43 +1,54 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/base :: pagina(~{::title}, 'dashboard', ~{::section})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Página no encontrada | AgroTech</title>
+    <title>Página no encontrada (404) · AgroTech</title>
 </head>
 <body>
+<section>
+    <!--/* Vista personalizada para errores 404 resuelta automáticamente por Spring Boot */-->
+    <div class="container-fluid px-0" style="max-width: 650px;">
 
-<!--/* Cabecera comun de la aplicacion */-->
-<header th:replace="~{fragments/layout :: barraSuperior}"></header>
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 bg-white text-center my-4">
+            <div class="card-body p-0">
 
-<div class="container-fluid">
-    <div class="row">
-        <!--/* Menu lateral con seccion 'dashboard' para no marcar ninguna seccion concreta como activa */-->
-        <nav th:replace="~{fragments/layout :: menuLateral('dashboard')}"></nav>
+                <!--/* Icono y distintivo del código de error */-->
+                <div class="mb-3">
+                    <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-warning-subtle text-warning"
+                          style="width: 64px; height: 64px;">
+                        <i class="bi bi-search fs-2"></i>
+                    </span>
+                </div>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4 d-flex flex-column min-vh-100">
-            <!--/* Mensajes flash si existen en el modelo */-->
-            <div th:replace="~{fragments/layout :: mensajes}"></div>
+                <span class="badge bg-warning-subtle text-dark px-3 py-2 rounded-pill fw-semibold mb-3">
+                    Error 404
+                </span>
 
-            <!--/* Spring Boot inyecta automaticamente 'path' en el modelo de error; no se muestran trazas */-->
-            <div class="my-4">
-                <span class="badge bg-secondary mb-2">Error 404</span>
-                <h1 class="h3 mb-3">No hemos encontrado esa página</h1>
-                <p class="text-muted">
-                    La dirección solicitada no existe o ya no está disponible:
+                <h1 class="h3 fw-bold text-dark mb-2">
+                    Recurso o página no encontrada
+                </h1>
+
+                <p class="text-muted mb-3">
+                    No hemos podido encontrar lo que buscabas. Comprueba la dirección o regresa al panel principal.
                 </p>
-                <p class="fw-semibold text-break" th:text="${path}">/ruta-solicitada</p>
 
-                <a th:href="@{/}" class="btn btn-success mt-2">
-                    <i class="bi bi-speedometer2 me-1"></i>Volver al panel
-                </a>
+                <!--/* Spring Boot inyecta automáticamente la variable 'path' con la ruta solicitada */-->
+                <div th:if="${path != null}" class="bg-light border rounded-3 py-2 px-3 mb-4 d-inline-block">
+                    <span class="small text-muted">Ruta solicitada: </span>
+                    <code class="text-dark fw-semibold" th:text="${path}">/ruta/inexistente</code>
+                </div>
+
+                <!--/* Botón de retorno al panel principal */-->
+                <div class="d-flex justify-content-center">
+                    <a th:href="@{/}" class="btn btn-success px-4 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-speedometer2"></i> Volver al panel
+                    </a>
+                </div>
+
             </div>
+        </div>
 
-            <!--/* Pie de pagina comun */-->
-            <footer th:replace="~{fragments/layout :: pie}"></footer>
-        </main>
     </div>
-</div>
-
+</section>
 </body>
 </html>
