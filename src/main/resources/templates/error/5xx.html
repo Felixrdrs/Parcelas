@@ -2,47 +2,24 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragmentos/base :: pagina(~{::title}, 'dashboard', ~{::section})}">
 <head>
-    <title>Error del servidor · AgroTech</title>
+    <title>Error del servidor | AgroTech</title>
 </head>
 <body>
-<section>
-    <!--/* Vista personalizada para errores de servidor (5xx) sin exponer trazas ni detalles técnicos */-->
-    <div class="container-fluid px-0" style="max-width: 650px;">
+<section class="my-4">
+    <span class="badge bg-danger mb-2">Error del servidor</span>
 
-        <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 bg-white text-center my-4">
-            <div class="card-body p-0">
+    <h1 class="h3 mb-3">
+        Ha ocurrido un problema inesperado
+    </h1>
 
-                <!--/* Icono y distintivo del error del servidor */-->
-                <div class="mb-3">
-                    <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger-subtle text-danger"
-                          style="width: 64px; height: 64px;">
-                        <i class="bi bi-exclamation-triangle-fill fs-2"></i>
-                    </span>
-                </div>
+    <p class="text-muted">
+        No se ha podido completar tu solicitud en este momento.
+        Inténtalo de nuevo más tarde.
+    </p>
 
-                <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fw-semibold mb-3">
-                    Error del servidor
-                </span>
-
-                <h1 class="h3 fw-bold text-dark mb-2">
-                    Ha ocurrido un problema inesperado
-                </h1>
-
-                <p class="text-muted mb-4">
-                    No se ha podido completar tu solicitud en este momento. Inténtalo de nuevo más tarde.
-                </p>
-
-                <!--/* Botón de retorno al panel principal */-->
-                <div class="d-flex justify-content-center">
-                    <a th:href="@{/}" class="btn btn-success px-4 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
-                        <i class="bi bi-speedometer2"></i> Volver al panel
-                    </a>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
+    <a th:href="@{/}" class="btn btn-success mt-2">
+        <i class="bi bi-speedometer2 me-1"></i>Volver al panel
+    </a>
 </section>
 </body>
 </html>

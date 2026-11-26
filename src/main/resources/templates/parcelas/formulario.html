@@ -2,109 +2,166 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragmentos/base :: pagina(~{::title}, 'parcelas', ~{::section})}">
 <head>
-    <title th:text="${parcela.id == null} ? 'Nueva Parcela · AgroTech' : 'Editar Parcela · AgroTech'">Formulario de Parcela</title>
+    <title th:text="${parcela.id == null}
+        ? 'Nueva parcela · AgroTech'
+        : 'Editar parcela · AgroTech'">
+        Formulario de parcela
+    </title>
 </head>
 <body>
-<section>
+<section th:with="esNueva=${parcela.id == null}">
     <div class="container-fluid px-0" style="max-width: 750px;">
-
-        <!-- Breadcrumb y título -->
         <div class="mb-4">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-1 small text-muted">
-                    <li class="breadcrumb-item"><a th:href="@{/parcelas}" class="text-decoration-none text-success">Parcelas</a></li>
-                    <li class="breadcrumb-item active" aria-current="page" th:text="${parcela.id == null} ? 'Nueva' : 'Editar'">Formulario</li>
+                    <li class="breadcrumb-item">
+                        <a th:href="@{/parcelas}"
+                           class="text-decoration-none text-success">
+                            Parcelas
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active"
+                        aria-current="page"
+                        th:text="${esNueva} ? 'Nueva' : 'Editar'">
+                        Formulario
+                    </li>
                 </ol>
             </nav>
-            <h1 class="h3 fw-bold text-dark mb-0" th:text="${parcela.id == null} ? 'Nueva Parcela' : 'Editar Parcela'">Formulario de parcela</h1>
+
+            <h1 class="h3 fw-bold text-dark mb-0"
+                th:text="${esNueva} ? 'Nueva parcela' : 'Editar parcela'">
+                Nueva parcela
+            </h1>
         </div>
 
-        <!-- Tarjeta moderna con sombra suave -->
         <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 bg-white">
             <div class="card-body p-0">
+                <form th:action="${esNueva}
+                    ? @{/parcelas}
+                    : @{/parcelas/{id}(id=${parcela.id})}"
+                      th:object="${parcela}" method="post">
 
-                <form th:action="@{/parcelas}" th:object="${parcela}" method="post">
-
-                    <!-- Campo oculto por si se usa el mismo formulario para editar -->
-                    <input type="hidden" th:field="*{id}" />
-
-                    <div class="row g-4">
-
-                        <!-- Nombre -->
-                        <div class="col-md-6">
-                            <label for="nombre" class="form-label fw-semibold text-dark">Nombre</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-tag"></i></span>
-                                <input type="text" id="nombre" th:field="*{nombre}"
-                                       class="form-control border-start-0 ps-0"
-                                       th:errorclass="is-invalid"
-                                       placeholder="Ej. Sector Norte" required>
-                            </div>
-                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
-                        </div>
-
-                        <!-- Ubicación -->
-                        <div class="col-md-6">
-                            <label for="ubicacion" class="form-label fw-semibold text-dark">Ubicación</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-geo-alt"></i></span>
-                                <input type="text" id="ubicacion" th:field="*{ubicacion}"
-                                       class="form-control border-start-0 ps-0"
-                                       th:errorclass="is-invalid"
-                                       placeholder="Ej. Finca El Roble" required>
-                            </div>
-                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('ubicacion')}" th:errors="*{ubicacion}"></div>
-                        </div>
-
-                        <!-- Superficie (ha) -->
-                        <div class="col-md-6">
-                            <label for="superficie" class="form-label fw-semibold text-dark">Superficie (ha)</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-aspect-ratio"></i></span>
-                                <input type="number" id="superficie" th:field="*{superficie}"
-                                       step="0.01" min="0.01"
-                                       class="form-control border-start-0 ps-0"
-                                       th:errorclass="is-invalid"
-                                       placeholder="0,00" required>
-                            </div>
-                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('superficie')}" th:errors="*{superficie}"></div>
-                        </div>
-
-                        <!-- Cultivo -->
-                        <div class="col-md-6">
-                            <label for="tipoCultivo" class="form-label fw-semibold text-dark">Cultivo</label>
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-flower2"></i></span>
-                                <select id="tipoCultivo" th:field="*{tipoCultivo}"
-                                        class="form-select border-start-0 ps-0"
-                                        th:errorclass="is-invalid" required>
-                                    <option value="">-- Selecciona --</option>
-                                    <option th:each="t : ${tipos}"
-                                            th:value="${t}"
-                                            th:text="${t.etiqueta}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('tipoCultivo')}" th:errors="*{tipoCultivo}"></div>
-                        </div>
-
+                    <div th:if="${#fields.hasErrors('*')}"
+                         class="alert alert-danger d-flex align-items-center gap-2 mb-4"
+                         role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <span>
+                            Revisa los campos marcados en rojo antes de guardar.
+                        </span>
                     </div>
 
-                    <!-- Botones de acción -->
-                    <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
-                        <a th:href="@{/parcelas}" class="btn btn-outline-secondary px-4 rounded-3">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombre"
+                                   class="form-label fw-semibold">
+                                Nombre
+                            </label>
+
+                            <input type="text" id="nombre"
+                                   th:field="*{nombre}"
+                                   class="form-control"
+                                   th:errorclass="is-invalid"
+                                   required maxlength="60"
+                                   placeholder="Ej. Los Llanos">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('nombre')}"
+                                 th:errors="*{nombre}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="ubicacion"
+                                   class="form-label fw-semibold">
+                                Ubicación
+                            </label>
+
+                            <input type="text" id="ubicacion"
+                                   th:field="*{ubicacion}"
+                                   class="form-control"
+                                   th:errorclass="is-invalid"
+                                   required maxlength="80"
+                                   placeholder="Ej. Finca El Roble">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('ubicacion')}"
+                                 th:errors="*{ubicacion}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="superficie"
+                                   class="form-label fw-semibold">
+                                Superficie
+                            </label>
+
+                            <div class="input-group has-validation">
+                                <input type="number" id="superficie"
+                                       th:field="*{superficie}"
+                                       class="form-control"
+                                       th:errorclass="is-invalid"
+                                       required min="0.01"
+                                       max="5000" step="0.01"
+                                       placeholder="12.50">
+
+                                <span class="input-group-text">ha</span>
+
+                                <div class="invalid-feedback"
+                                     th:if="${#fields.hasErrors('superficie')}"
+                                     th:errors="*{superficie}">
+                                    Error
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="tipoCultivo"
+                                   class="form-label fw-semibold">
+                                Cultivo
+                            </label>
+
+                            <select id="tipoCultivo"
+                                    th:field="*{tipoCultivo}"
+                                    class="form-select"
+                                    th:errorclass="is-invalid"
+                                    required>
+                                <option value="">-- Selecciona --</option>
+
+                                <option th:each="t : ${tipos}"
+                                        th:value="${t}"
+                                        th:text="${t.etiqueta}">
+                                    Olivar
+                                </option>
+                            </select>
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('tipoCultivo')}"
+                                 th:errors="*{tipoCultivo}">
+                                Error
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <a th:href="${esNueva}
+                            ? @{/parcelas}
+                            : @{/parcelas/{id}(id=${parcela.id})}"
+                           class="btn btn-outline-secondary px-4 rounded-3">
                             Cancelar
                         </a>
-                        <button type="submit" class="btn btn-success px-4 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
-                            <i class="bi bi-check-lg"></i> Guardar
+
+                        <button type="submit"
+                                class="btn btn-success px-4 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                            <i class="bi bi-check-lg"></i>Guardar
                         </button>
                     </div>
-
                 </form>
-
             </div>
         </div>
-
     </div>
 </section>
 </body>
