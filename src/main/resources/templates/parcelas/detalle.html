@@ -2,61 +2,92 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragmentos/base :: pagina(~{::title}, 'parcelas', ~{::section})}">
 <head>
-    <title th:text="${parcela.nombre} + ' · Detalle de Parcela'">Detalle de Parcela</title>
+    <title th:text="${parcela.nombre} + ' · Detalle de Parcela'">
+        Detalle de Parcela
+    </title>
 </head>
 <body>
 <section>
     <div class="container-fluid px-0" style="max-width: 700px;">
-
-        <!-- Cabecera de la página -->
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-1 small text-muted">
-                        <li class="breadcrumb-item"><a th:href="@{/parcelas}" class="text-decoration-none text-success">Parcelas</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Detalle</li>
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/parcelas}"
+                               class="text-decoration-none text-success">
+                                Parcelas
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            Detalle
+                        </li>
                     </ol>
                 </nav>
-                <h1 class="h3 fw-bold text-dark mb-0" th:text="${parcela.nombre}">Nombre de la parcela</h1>
+
+                <h1 class="h3 fw-bold text-dark mb-0"
+                    th:text="${parcela.nombre}">
+                    Nombre de la parcela
+                </h1>
             </div>
         </div>
 
-        <!-- Tarjeta contenedora -->
         <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 bg-white">
             <div class="card-body p-0">
-
                 <dl class="row mb-0 gy-3">
-                    <dt class="col-sm-4 text-muted fw-semibold">Identificador</dt>
-                    <dd class="col-sm-8 text-dark fw-medium mb-0" th:text="${parcela.id}">1</dd>
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Identificador
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="${parcela.id}">1</dd>
 
-                    <div class="col-12"><hr class="text-muted opacity-10 my-1"></div>
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
 
-                    <dt class="col-sm-4 text-muted fw-semibold">Ubicación</dt>
-                    <dd class="col-sm-8 text-dark fw-medium mb-0" th:text="${parcela.ubicacion}">Ubicación</dd>
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Ubicación
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="${parcela.ubicacion}">
+                        Ubicación
+                    </dd>
 
-                    <div class="col-12"><hr class="text-muted opacity-10 my-1"></div>
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
 
-                    <dt class="col-sm-4 text-muted fw-semibold">Superficie</dt>
-                    <dd class="col-sm-8 text-dark fw-medium mb-0" th:text="${parcela.superficie} + ' ha'">0.0 ha</dd>
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Superficie
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="${parcela.superficie} + ' ha'">
+                        0.0 ha
+                    </dd>
 
-                    <div class="col-12"><hr class="text-muted opacity-10 my-1"></div>
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
 
-                    <dt class="col-sm-4 text-muted fw-semibold">Cultivo</dt>
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Cultivo
+                    </dt>
                     <dd class="col-sm-8 text-dark fw-medium mb-0">
-                        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold" th:text="${parcela.tipoCultivo?.etiqueta}">Cultivo</span>
+                        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
+                              th:text="${parcela.tipoCultivo?.etiqueta}">
+                            Cultivo
+                        </span>
                     </dd>
                 </dl>
-
             </div>
         </div>
 
-        <!-- Botón de vuelta -->
         <div class="mt-4">
-            <a th:href="@{/parcelas}" class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
-                <i class="bi bi-arrow-left"></i> Volver al listado
+            <a th:href="@{/parcelas}"
+               class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-arrow-left"></i>Volver al listado
             </a>
         </div>
-
     </div>
 </section>
 </body>
