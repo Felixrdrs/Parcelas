@@ -1,6 +1,7 @@
 package com.daw.parcelas.service;
 
 
+import com.daw.parcelas.excepcion.RecursoNoEncontradoException;
 import com.daw.parcelas.model.Produccion;
 import com.daw.parcelas.repository.ProduccionRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class ProduccionServiceImpl implements ProduccionService {
     public List<Produccion> getAllProducciones() {
         return produccionRepository.findAll();
     }
+
 
     @Override
     public Produccion getProduccionById(Long id) {

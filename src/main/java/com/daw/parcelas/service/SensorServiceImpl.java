@@ -2,9 +2,13 @@ package com.daw.parcelas.service;
 
 
 
+
+import com.daw.parcelas.excepcion.RecursoNoEncontradoException;
 import com.daw.parcelas.model.Sensor;
 import com.daw.parcelas.model.TipoSensor;
 import com.daw.parcelas.repository.SensorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,11 +16,14 @@ import java.util.List;
 @Service
 public class SensorServiceImpl implements SensorService {
 
+    private static final Logger logger = LoggerFactory.getLogger(SensorServiceImpl.class);
+
     public final SensorRepository sensorRepository;
 
     public SensorServiceImpl(SensorRepository sensorRepository) {
         this.sensorRepository = sensorRepository;
     }
+
 
 
     @Override
@@ -34,6 +41,8 @@ public class SensorServiceImpl implements SensorService {
     }
 
 
+
+
     @Override
     public Sensor getSensorById(Long id) {
         return sensorRepository.findById(id)
@@ -47,7 +56,6 @@ public class SensorServiceImpl implements SensorService {
         logger.debug("Obteniendo todos los sensores de temperatura");
         return sensorRepository.findAllByTipoEquals(TipoSensor.TEMPERATURA);
     }
-
     @Override
     public void saveSensor(Sensor sensor) {
         sensorRepository.save(sensor);
