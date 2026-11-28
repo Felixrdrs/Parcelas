@@ -1,0 +1,54 @@
+package com.daw.parcelas.model;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "sensors")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Sensor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "El nombre no puede estar vacío")
+    private String name;
+
+    @NotBlank(message = "El modelo no puede estar vacío")
+    private String model;
+
+    @NotNull(message = "El tipo de sensor es obligatorio")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_sensor", nullable = false)
+    private TipoSensor tipo;
+
+    @Column(name = "unidad_medida")
+    private String unidadMedida;
+
+    private String estado;
+
+    @Column(nullable = true)
+    private Double latitud;
+
+    @Column(nullable = true)
+    private Double longitud;
+
+    @CreationTimestamp
+    private LocalDateTime creadoEn;
+
+    @UpdateTimestamp
+    private LocalDateTime actualizadoEn;
+}

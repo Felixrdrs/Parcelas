@@ -31,10 +31,10 @@
 
 <div class="container mt-4" style="max-width: 600px;">
 
-    <!-- El nombre de la parcela como título principal -->
+
     <h1 th:text="${parcela.nombre}">Nombre de la parcela</h1>
 
-    <!-- Lista de definiciones para los datos de la parcela -->
+
     <dl class="mt-3">
         <dt>Identificador</dt>
         <dd th:text="${parcela.id}"></dd>
@@ -49,7 +49,7 @@
         <dd th:text="${parcela.tipoCultivo?.etiqueta}"></dd>
     </dl>
 
-    <!-- Enlace para volver al listado -->
+
     <a th:href="@{/parcelas}" class="btn btn-outline-secondary mt-3">Volver al listado</a>
 
 </div>
