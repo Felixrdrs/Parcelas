@@ -2,6 +2,7 @@
 package com.daw.parcelas.service;
 
 
+import com.daw.parcelas.excepcion.RecursoNoEncontradoException;
 import com.daw.parcelas.model.Parcela;
 import com.daw.parcelas.model.TipoCultivo;
 import com.daw.parcelas.repository.ParcelaRepository;
@@ -61,6 +62,30 @@ public class ParcelaServiceImpl implements ParcelaService {
                 .orElseThrow(() ->
                         new RecursoNoEncontradoException(
                                 "Parcela con id " + id + " no encontrada"));
+    }
+    @Override
+    public List<Parcela> buscar(String texto, TipoCultivo cultivo) {
+        String filtro = texto == null
+                ? "" : texto.trim().toLowerCase();
+
+        return parcelaRepository.findAll().stream()
+                .filter(p -> {
+                    if (filtro.isEmpty()) {
+                        return true;
+                    }
+
+                    String nombre = p.getNombre() == null
+                            ? "" : p.getNombre().toLowerCase();
+
+                    String ubicacion = p.getUbicacion() == null
+                            ? "" : p.getUbicacion().toLowerCase();
+
+                    return nombre.contains(filtro)
+                            || ubicacion.contains(filtro);
+                })
+                .filter(p -> cultivo == null
+                        || cultivo.equals(p.getTipoCultivo()))
+                .toList();
     }
 
     @Override

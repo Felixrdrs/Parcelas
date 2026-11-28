@@ -56,7 +56,7 @@ public class ProduccionController {
         }
 
         //Mete la clave ajena de parcela en la producción antes de guardarla
-        produccion.setParcela(parcelaService.buscarPorId(parcelaId));
+        produccion.setParcela(parcelaService.getParcelById(parcelaId));
 
         //Guarda la producción en la base de datos
         produccionService.saveProduccion(produccion);

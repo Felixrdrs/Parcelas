@@ -12,12 +12,12 @@ public interface ParcelaService {
 
     double superficieTotal();
 
-    List<Parcela> getParcel(String texto, TipoCultivo cultivo);
+    List<Parcela> buscar(String texto, TipoCultivo cultivo);
 
     Parcela getParcelById(Long id);
 
     Parcela guardar(Parcela parcela);
 
-    void eliminar(Long id);;
+    void eliminar(Long id);
 
 }
