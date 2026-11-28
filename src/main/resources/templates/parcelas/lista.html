@@ -144,7 +144,7 @@
             </tbody>
 
             <tfoot class="table-light fw-semibold"
-                   th:with="total=${#aggregates.sum(parcelas[superficie])}">
+                   th:with="total=${#aggregates.sum(parcelas.![superficie])}">
             <tr>
                 <td colspan="3">
                     Total mostradas:
