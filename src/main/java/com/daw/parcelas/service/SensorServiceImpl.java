@@ -18,13 +18,11 @@ public class SensorServiceImpl implements SensorService {
 
     private static final Logger logger = LoggerFactory.getLogger(SensorServiceImpl.class);
 
-    public final SensorRepository sensorRepository;
+    private final SensorRepository sensorRepository;
 
     public SensorServiceImpl(SensorRepository sensorRepository) {
         this.sensorRepository = sensorRepository;
     }
-
-
 
     @Override
     public List<Sensor> getAllSensors() {
@@ -32,23 +30,22 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
-    public List<Sensor> getAllSensorsByNameAndTipo(String name, String tipo) {
-        if (tipo.equals("TODOS")) {
-            return sensorRepository.findAllByNameContainingIgnoreCase(name);
-        } else {
-            return sensorRepository.findAllByNameContainingIgnoreCaseAndTipoEquals(name, TipoSensor.valueOf(tipo));
-        }
+    public List<Sensor> buscar(String q, TipoSensor tipo) {
+        String filtro = (q == null) ? "" : q.trim().toLowerCase();
+
+        return sensorRepository.findAll().stream()
+                .filter(s -> filtro.isEmpty()
+                        || (s.getName() != null && s.getName().toLowerCase().contains(filtro))
+                        || (s.getModel() != null && s.getModel().toLowerCase().contains(filtro)))
+                .filter(s -> tipo == null || s.getTipo() == tipo)
+                .toList();
     }
-
-
-
 
     @Override
     public Sensor getSensorById(Long id) {
         return sensorRepository.findById(id)
                 .orElseThrow(() ->
-                        new RecursoNoEncontradoException("Sensor con id " +
-                                id + " no encontrado"));
+                        new RecursoNoEncontradoException("Sensor con id " + id + " no encontrado"));
     }
 
     @Override
@@ -56,13 +53,15 @@ public class SensorServiceImpl implements SensorService {
         logger.debug("Obteniendo todos los sensores de temperatura");
         return sensorRepository.findAllByTipoEquals(TipoSensor.TEMPERATURA);
     }
+
     @Override
-    public void saveSensor(Sensor sensor) {
-        sensorRepository.save(sensor);
+    public Sensor guardar(Sensor sensor) {
+        return sensorRepository.save(sensor);
     }
 
     @Override
-    public void deleteSensorById(Long id) {
-        sensorRepository.deleteById(id);
+    public void eliminar(Long id) {
+        Sensor sensor = getSensorById(id);
+        sensorRepository.delete(sensor);
     }
 }

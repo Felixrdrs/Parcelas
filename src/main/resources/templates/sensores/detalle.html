@@ -1,39 +1,149 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Panel')}"></head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/base :: pagina(~{::title}, 'sensores', ~{::section})}">
+<head>
+    <title th:text="${sensor.name} + ' · Detalle de Sensor'">
+        Detalle de Sensor
+    </title>
+</head>
 <body>
+<section th:object="${sensor}">
+    <div class="container-fluid px-0" style="max-width: 700px;">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small text-muted">
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/sensors}"
+                               class="text-decoration-none text-success">
+                                Sensores
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page"
+                            th:text="*{name}">
+                            Nombre del sensor
+                        </li>
+                    </ol>
+                </nav>
 
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
-
-<div class="d-flex">
-    <aside th:replace="~{fragments/layout :: sidebar('dashboard')}"></aside>
-
-    <main class="app-main flex-grow-1 p-3 p-lg-4">
-
-        <div th:replace="~{fragments/layout :: header-main('Detalle del sensor')}"></div>
-
-        <div class="row g-3">
-
-            <div class="container mt-4">
-                <div class="card mt-3" style="max-width: 320px;">
-                    <div class="card-body">
-                        <h4  th:text="${sensor.getName()}" class="card-title"></h4>
-                        <p th:text="${sensor.getModel()}" class="card-subtitle fg-3"></p>
-                        <p class="card-text">
-                            (<span th:text="${sensor.getLatitud()}"></span>,
-                            <span th:text="${sensor.getLongitud()}"></span>)
-                        </p>
-                        <a th:href="@{/sensors}" class="btn-outline theme-primary">Volver atrás</a>
-                    </div>
+                <div class="d-flex align-items-center gap-2">
+                    <h1 class="h3 fw-bold text-dark mb-0" th:text="*{name}">
+                        Nombre del sensor
+                    </h1>
+                    <span th:if="*{tipo != null}"
+                          class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
+                          th:text="*{tipo.etiqueta}">
+                        Tipo
+                    </span>
                 </div>
             </div>
-
         </div>
 
-        <footer th:replace="~{fragments/layout :: footer}"></footer>
-    </main>
-</div>
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 bg-white">
+            <div class="card-body p-0">
+                <dl class="row mb-0 gy-3">
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Identificador
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="*{id}">1</dd>
 
-<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Modelo
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="*{model}">
+                        Modelo
+                    </dd>
+
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Tipo
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0">
+                        <span th:if="*{tipo != null}"
+                              class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
+                              th:text="*{tipo.etiqueta}">
+                            Tipo
+                        </span>
+                    </dd>
+
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Unidad de medida
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="*{unidadMedida != null && !#strings.isEmpty(unidadMedida)} ? *{unidadMedida} : '-'">
+                        -
+                    </dd>
+
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Estado
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0">
+                        <span th:if="*{estado == 'ACTIVO'}"
+                              class="badge bg-success-subtle text-success rounded-pill px-3 py-1">
+                            Activo
+                        </span>
+                        <span th:if="*{estado == 'INACTIVO'}"
+                              class="badge bg-secondary-subtle text-secondary rounded-pill px-3 py-1">
+                            Inactivo
+                        </span>
+                        <span th:if="*{estado != 'ACTIVO' and estado != 'INACTIVO'}"
+                              th:text="*{estado != null && !#strings.isEmpty(estado)} ? *{estado} : '-'">
+                            -
+                        </span>
+                    </dd>
+
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Coordenadas
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="(*{latitud != null} ? *{latitud} : '-') + ' / ' + (*{longitud != null} ? *{longitud} : '-')">
+                        - / -
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex flex-wrap gap-2">
+            <a th:href="@{/sensors}"
+               class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-arrow-left"></i>Volver
+            </a>
+
+            <a th:href="@{/sensors/{id}/editar(id=*{id})}"
+               class="btn btn-outline-primary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-pencil"></i>Editar
+            </a>
+
+            <button type="button"
+                    class="btn btn-outline-danger px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalEliminar"
+                    th:attr="data-url=@{/sensors/{id}/eliminar(id=*{id})},data-nombre=*{name}">
+                <i class="bi bi-trash"></i>Eliminar
+            </button>
+        </div>
+    </div>
+</section>
 </body>
 </html>

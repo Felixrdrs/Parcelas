@@ -36,6 +36,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link"
+                   th:classappend="${seccion == 'sensores'} ? 'active'"
+                   th:href="@{/sensors}">
+                    <i class="bi bi-cpu me-2"></i>Sensores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
                    th:classappend="${seccion == 'produccion'} ? 'active'"
                    th:href="@{/produccion}">
                     <i class="bi bi-basket me-2"></i>Producción
@@ -54,6 +61,11 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-success" th:href="@{/sensors/nuevo}">
+                    <i class="bi bi-plus-circle me-2"></i>Nuevo sensor
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link text-success" th:href="@{/produccion/nuevo}">
                     <i class="bi bi-plus-circle me-2"></i>Registrar producción
                 </a>
@@ -67,6 +79,26 @@
     <span th:text="${mensaje}">Operación realizada</span>
     <button type="button" class="btn-close"
             data-bs-dismiss="alert" aria-label="Cerrar"></button>
+</div>
+
+<div th:fragment="modalEliminar" class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Confirmar eliminación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Seguro que quieres eliminar <strong id="modalEliminarNombre"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="modalEliminarForm" method="post">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer th:fragment="pie"
