@@ -2,6 +2,7 @@ package com.daw.parcelas.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Sensor {
     @NotBlank(message = "El modelo no puede estar vacío")
     private String model;
 
+    @NotNull(message = "El tipo de sensor es obligatorio")
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_sensor", nullable = false)
     private TipoSensor tipo;

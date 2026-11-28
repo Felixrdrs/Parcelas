@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/sensors")
@@ -20,88 +21,79 @@ public class SensorController {
         this.sensorService = sensorService;
     }
 
+    @ModelAttribute("tipos")
+    public TipoSensor[] tipos() {
+        return TipoSensor.values();
+    }
+
     @GetMapping
-    public String getAllSensors(@RequestParam (required = false) String q,
-                                @RequestParam(required = false) String tipo, Model model) {
-        //Obtener los sensores
-        if (q == null) q = "";
-        if (tipo == null) tipo = "TODOS";
+    public String listar(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) TipoSensor tipo,
+            Model model) {
 
-        var sensors = sensorService.getAllSensorsByNameAndTipo(q, tipo);
-        //Pasárselos a la vista
-        model.addAttribute("sensors", sensors);
-        var tipos = TipoSensor.values();
-        model.addAttribute("tipos", tipos);
+        model.addAttribute("sensors", sensorService.buscar(q, tipo));
         model.addAttribute("q", q);
-        model.addAttribute("tipo", tipo);
-        return "sensores/lista";
-    }
-
-    /**
-     * Buscador desde Javascript por nombre de sensor. Devuelve un fragmento de la tabla de sensores.
-     * @param q
-     * @param model
-     * @return
-     */
-    @GetMapping("/find")
-    public String findAsinc(@RequestParam (required = false) String q, Model model) {
-
-        if (q == null) q = "";
-        var tipo = "TODOS";
-
-        var sensors = sensorService.getAllSensorsByNameAndTipo(q, tipo);
-        model.addAttribute("sensors", sensors);
-        return "sensores/lista :: tabla-sensores";
-    }
-
-    @GetMapping("/temperatura")
-    public String getAllSensorsTemperatura(Model model) {
-        var sensors = sensorService.getAllSensorsTemperatura();
-        model.addAttribute("sensors", sensors);
-        model.addAttribute("titulo", "Sensores de Temperatura");
+        model.addAttribute("tipoSel", tipo);
         return "sensores/lista";
     }
 
     @GetMapping("/{id}")
-    public String getSensorById(@PathVariable Long id, Model model) {
-        var sensor = sensorService.getSensorById(id);
-        model.addAttribute("sensor", sensor);
+    public String detalle(@PathVariable Long id, Model model) {
+        model.addAttribute("sensor", sensorService.getSensorById(id));
         return "sensores/detalle";
     }
 
-    @GetMapping("/new")
-    public String newSensor(Model model) {
-        var tipos = TipoSensor.values();
-        model.addAttribute("tipos", tipos);
+    @GetMapping("/nuevo")
+    public String nuevo(Model model) {
         model.addAttribute("sensor", new Sensor());
         return "sensores/formulario";
     }
 
-    @GetMapping("/update/{id}")
-    public String updateSensor(@PathVariable Long id, Model model) {
-        var sensor = sensorService.getSensorById(id);
-        var tipos = TipoSensor.values();
-        model.addAttribute("tipos", tipos);
-        model.addAttribute("sensor", sensor);
+    @GetMapping("/{id}/editar")
+    public String editar(@PathVariable Long id, Model model) {
+        model.addAttribute("sensor", sensorService.getSensorById(id));
         return "sensores/formulario";
     }
 
-    @PostMapping()
-    public String saveSensor(@Valid Sensor sensor, BindingResult errors, Model model) {
-        if (errors.hasErrors()) {
-            model.addAttribute("tipos", TipoSensor.values());
+    @PostMapping
+    public String crear(
+            @Valid @ModelAttribute("sensor") Sensor sensor,
+            BindingResult errores,
+            RedirectAttributes flash) {
+
+        if (errores.hasErrors()) {
             return "sensores/formulario";
         }
 
-        sensorService.saveSensor(sensor);
+        Sensor guardado = sensorService.guardar(sensor);
+        flash.addFlashAttribute("mensaje", "Sensor «" + guardado.getName() + "» creado correctamente");
         return "redirect:/sensors";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteSensor(@PathVariable Long id) {
-        sensorService.deleteSensorById(id);
+    @PostMapping("/{id}")
+    public String actualizar(
+            @PathVariable Long id,
+            @Valid @ModelAttribute("sensor") Sensor sensor,
+            BindingResult errores,
+            RedirectAttributes flash) {
+
+        sensor.setId(id);
+
+        if (errores.hasErrors()) {
+            return "sensores/formulario";
+        }
+
+        Sensor guardado = sensorService.guardar(sensor);
+        flash.addFlashAttribute("mensaje", "Sensor «" + guardado.getName() + "» actualizado correctamente");
         return "redirect:/sensors";
     }
 
-
+    @PostMapping("/{id}/eliminar")
+    public String eliminar(@PathVariable Long id, RedirectAttributes flash) {
+        Sensor sensor = sensorService.getSensorById(id);
+        sensorService.eliminar(id);
+        flash.addFlashAttribute("mensaje", "Sensor «" + sensor.getName() + "» eliminado correctamente");
+        return "redirect:/sensors";
+    }
 }

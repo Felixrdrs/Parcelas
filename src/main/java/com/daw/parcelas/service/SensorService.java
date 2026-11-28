@@ -1,15 +1,15 @@
 package com.daw.parcelas.service;
 
 import com.daw.parcelas.model.Sensor;
+import com.daw.parcelas.model.TipoSensor;
 
 import java.util.List;
 
 public interface SensorService {
-
     List<Sensor> getAllSensors();
-    List<Sensor> getAllSensorsByNameAndTipo(String name, String tipo);
+    List<Sensor> buscar(String q, TipoSensor tipo);
     Sensor getSensorById(Long id);
     List<Sensor> getAllSensorsTemperatura();
-    void saveSensor(Sensor sensor);
-    void deleteSensorById(Long id);
+    Sensor guardar(Sensor sensor);
+    void eliminar(Long id);
 }

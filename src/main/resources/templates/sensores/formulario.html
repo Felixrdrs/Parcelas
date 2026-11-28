@@ -1,75 +1,224 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Panel')}"></head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/base :: pagina(~{::title}, 'sensores', ~{::section})}">
+<head>
+    <title th:text="${sensor.id == null}
+        ? 'Nuevo sensor · AgroTech'
+        : 'Editar sensor · AgroTech'">
+        Formulario de sensor
+    </title>
+</head>
 <body>
+<section th:with="esNuevo=${sensor.id == null}">
+    <div class="container-fluid px-0" style="max-width: 750px;">
+        <div class="mb-4">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-1 small text-muted">
+                    <li class="breadcrumb-item">
+                        <a th:href="@{/sensors}"
+                           class="text-decoration-none text-success">
+                            Sensores
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active"
+                        aria-current="page"
+                        th:text="${esNuevo} ? 'Nuevo' : 'Editar'">
+                        Formulario
+                    </li>
+                </ol>
+            </nav>
 
-<nav th:replace="~{fragments/layout :: navbar}"></nav>
-
-<div class="d-flex">
-    <aside th:replace="~{fragments/layout :: sidebar('dashboard')}"></aside>
-
-    <main class="app-main flex-grow-1 p-3 p-lg-4">
-
-        <div th:replace="~{fragments/layout :: header-main('Nuevo sensor')}"></div>
-
-        <div class="row g-3">
-            <form style="max-width: 400px;" class="p-3 border rounded"
-                  th:action="@{/sensors}" th:object="${sensor}" th:method="post"
-            >
-                <div class="estado-alarma" th:if="${#fields.hasErrors()}">
-                    <p th:each="e : ${#fields.errors()}" th:text="${e}">Error general</p>
-                </div>
-
-                <div class="mb-3 mt-6">
-                    <label for="name" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="name" th:field="*{name}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="model" class="form-label">Modelo</label>
-                    <input type="text" class="form-control" id="model" th:field="*{model}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="unidadMedida" class="form-label">Unidad de medida</label>
-                    <input type="text" class="form-control" id="unidadMedida" th:field="*{unidadMedida}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="estado" class="form-label">Estado</label>
-                    <select class="form-control" id="estado" th:field="*{estado}">
-                        <option value="ACTIVO" selected>Activo</option>
-                        <option value="INACTIVO">Inactivo</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="tipo" class="form-label">Tipo</label>
-                    <select class="form-control" id="tipo" th:field="*{tipo}">
-                        <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
-                    </select>
-                </div>
-
-                <div class="row g-2">
-                    <div class="col-md">
-                        <div class="mb-3">
-                            <label for="latitud" class="form-label">Latitud</label>
-                            <input type="text" class="form-control" id="latitud" th:field="*{latitud}" required>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="mb-3">
-                            <label for="longitud" class="form-label">Longitud</label>
-                            <input type="text" class="form-control" id="longitud" th:field="*{longitud}" required>
-                        </div>
-                    </div>
-                </div>
-
-                <input type="hidden" th:field="*{id}" />
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </form>
+            <h1 class="h3 fw-bold text-dark mb-0"
+                th:text="${esNuevo} ? 'Nuevo sensor' : 'Editar sensor'">
+                Nuevo sensor
+            </h1>
         </div>
 
-        <footer th:replace="~{fragments/layout :: footer}"></footer>
-    </main>
-</div>
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 bg-white">
+            <div class="card-body p-0">
+                <form th:action="${esNuevo}
+                    ? @{/sensors}
+                    : @{/sensors/{id}(id=${sensor.id})}"
+                      th:object="${sensor}" method="post">
 
-<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+                    <div th:if="${#fields.hasErrors('*')}"
+                         class="alert alert-danger d-flex align-items-center gap-2 mb-4"
+                         role="alert">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <span>
+                            Revisa los campos marcados en rojo antes de guardar.
+                        </span>
+                    </div>
+
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="name"
+                                   class="form-label fw-semibold">
+                                Nombre
+                            </label>
+
+                            <input type="text" id="name"
+                                   th:field="*{name}"
+                                   class="form-control"
+                                   th:errorclass="is-invalid"
+                                   required maxlength="60"
+                                   placeholder="Ej. Sonda Humedad 01">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('name')}"
+                                 th:errors="*{name}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="model"
+                                   class="form-label fw-semibold">
+                                Modelo
+                            </label>
+
+                            <input type="text" id="model"
+                                   th:field="*{model}"
+                                   class="form-control"
+                                   th:errorclass="is-invalid"
+                                   required maxlength="80"
+                                   placeholder="Ej. DHT22 Pro">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('model')}"
+                                 th:errors="*{model}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="tipo"
+                                   class="form-label fw-semibold">
+                                Tipo de sensor
+                            </label>
+
+                            <select id="tipo"
+                                    th:field="*{tipo}"
+                                    class="form-select"
+                                    th:errorclass="is-invalid"
+                                    required>
+                                <option value="">-- Selecciona --</option>
+
+                                <option th:each="t : ${tipos}"
+                                        th:value="${t}"
+                                        th:text="${t.etiqueta}">
+                                    Temperatura
+                                </option>
+                            </select>
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('tipo')}"
+                                 th:errors="*{tipo}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="unidadMedida"
+                                   class="form-label fw-semibold">
+                                Unidad de medida
+                            </label>
+
+                            <input type="text" id="unidadMedida"
+                                   th:field="*{unidadMedida}"
+                                   class="form-control"
+                                   th:errorclass="is-invalid"
+                                   maxlength="20"
+                                   placeholder="Ej. °C, %, pH">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('unidadMedida')}"
+                                 th:errors="*{unidadMedida}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="estado"
+                                   class="form-label fw-semibold">
+                                Estado
+                            </label>
+
+                            <select id="estado"
+                                    th:field="*{estado}"
+                                    class="form-select"
+                                    th:errorclass="is-invalid">
+                                <option value="ACTIVO">Activo</option>
+                                <option value="INACTIVO">Inactivo</option>
+                            </select>
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('estado')}"
+                                 th:errors="*{estado}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="latitud"
+                                   class="form-label fw-semibold">
+                                Latitud
+                            </label>
+
+                            <input type="number" id="latitud"
+                                   th:field="*{latitud}"
+                                   class="form-control"
+                                   th:errorclass="is-invalid"
+                                   min="-90" max="90" step="0.000001"
+                                   placeholder="37.7749">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('latitud')}"
+                                 th:errors="*{latitud}">
+                                Error
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="longitud"
+                                   class="form-label fw-semibold">
+                                Longitud
+                            </label>
+
+                            <input type="number" id="longitud"
+                                   th:field="*{longitud}"
+                                   class="form-control"
+                                   th:errorclass="is-invalid"
+                                   min="-180" max="180" step="0.000001"
+                                   placeholder="-3.7849">
+
+                            <div class="invalid-feedback"
+                                 th:if="${#fields.hasErrors('longitud')}"
+                                 th:errors="*{longitud}">
+                                Error
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                        <a th:href="${esNuevo}
+                            ? @{/sensors}
+                            : @{/sensors/{id}(id=${sensor.id})}"
+                           class="btn btn-outline-secondary px-4 rounded-3">
+                            Cancelar
+                        </a>
+
+                        <button type="submit"
+                                class="btn btn-success px-4 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                            <i class="bi bi-check-lg"></i>Guardar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>
