@@ -81,6 +81,16 @@
             data-bs-dismiss="alert" aria-label="Cerrar"></button>
 </div>
 
+<button th:fragment="botonEliminar(url, nombre)"
+        type="button"
+        class="btn btn-sm btn-outline-danger"
+        title="Eliminar"
+        data-bs-toggle="modal"
+        data-bs-target="#modalEliminar"
+        th:attr="data-url=${url},data-nombre=${nombre}">
+    <i class="bi bi-trash"></i>
+</button>
+
 <div th:fragment="modalEliminar" class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
