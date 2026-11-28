@@ -144,17 +144,16 @@
             </tbody>
 
             <tfoot class="table-light fw-semibold"
-                   th:with="total=${#aggregates.sum(parcelas.![superficie])}">
+                   th:with="total=${#aggregates.sum(parcelas[superficie])}">
             <tr>
                 <td colspan="3">
                     Total mostradas:
                     <span th:text="${#lists.size(parcelas)}">0</span>
                 </td>
-
-                <td colspan="3"
-                    th:text="${#numbers.formatDecimal(total != null ? total : 0, 1, 'POINT', 2, 'COMMA')} + ' ha'">
+                <td th:text="${#numbers.formatDecimal(total, 1, 'POINT', 2, 'COMMA')} + ' ha'">
                     0,00 ha
                 </td>
+                <td colspan="2"></td>
             </tr>
             </tfoot>
         </table>
