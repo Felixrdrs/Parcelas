@@ -68,7 +68,7 @@
                         Superficie
                     </dt>
                     <dd class="col-sm-8 text-dark fw-medium mb-0"
-                        th:text="*{superficie != null} ? ${#numbers.formatDecimal(parcela.superficie, 1, 'POINT', 2, 'COMMA')} + ' ha' : '-'">
+                        th:text="*{superficie != null} ? ${#numbers.formatDecimal(superficie, 1, 'POINT', 2, 'COMMA')} + ' ha' : '-'">
                         0,00 ha
                     </dd>
 

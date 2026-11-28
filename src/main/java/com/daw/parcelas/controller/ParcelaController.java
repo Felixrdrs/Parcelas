@@ -37,7 +37,7 @@ public class ParcelaController {
             Model model) {
 
         model.addAttribute("parcelas",
-                parcelaService.getParcel(q, cultivo));
+                parcelaService.buscar(q, cultivo));
 
         model.addAttribute("q", q);
         model.addAttribute("cultivoSel", cultivo);
@@ -102,12 +102,11 @@ public class ParcelaController {
             BindingResult errores,
             RedirectAttributes flash) {
 
+        parcela.setId(id);
+
         if (errores.hasErrors()) {
-            parcela.setId(id);
             return "parcelas/formulario";
         }
-
-        parcela.setId(id);
 
         Parcela guardada = parcelaService.guardar(parcela);
 
