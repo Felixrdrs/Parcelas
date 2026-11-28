@@ -11,12 +11,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
-@Entity(name = "sensors")
+@Entity
+@Table(name = "sensors")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Sensor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +30,7 @@ public class Sensor {
     private String model;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = "tipo_sensor")
+    @Column(name = "tipo_sensor", nullable = false)
     private TipoSensor tipo;
 
     @Column(name = "unidad_medida")
@@ -47,7 +49,4 @@ public class Sensor {
 
     @UpdateTimestamp
     private LocalDateTime actualizadoEn;
-
-
-
 }

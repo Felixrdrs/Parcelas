@@ -7,7 +7,7 @@
     </title>
 </head>
 <body>
-<section>
+<section th:object="${parcela}">
     <div class="container-fluid px-0" style="max-width: 700px;">
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div>
@@ -19,16 +19,23 @@
                                 Parcelas
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Detalle
+                        <li class="breadcrumb-item active" aria-current="page"
+                            th:text="*{nombre}">
+                            Nombre de la parcela
                         </li>
                     </ol>
                 </nav>
 
-                <h1 class="h3 fw-bold text-dark mb-0"
-                    th:text="${parcela.nombre}">
-                    Nombre de la parcela
-                </h1>
+                <div class="d-flex align-items-center gap-2">
+                    <h1 class="h3 fw-bold text-dark mb-0" th:text="*{nombre}">
+                        Nombre de la parcela
+                    </h1>
+                    <span th:if="*{tipoCultivo != null}"
+                          class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
+                          th:text="*{tipoCultivo.etiqueta}">
+                        Cultivo
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -39,7 +46,7 @@
                         Identificador
                     </dt>
                     <dd class="col-sm-8 text-dark fw-medium mb-0"
-                        th:text="${parcela.id}">1</dd>
+                        th:text="*{id}">1</dd>
 
                     <div class="col-12">
                         <hr class="text-muted opacity-10 my-1">
@@ -49,7 +56,7 @@
                         Ubicación
                     </dt>
                     <dd class="col-sm-8 text-dark fw-medium mb-0"
-                        th:text="${parcela.ubicacion}">
+                        th:text="*{ubicacion}">
                         Ubicación
                     </dd>
 
@@ -61,8 +68,8 @@
                         Superficie
                     </dt>
                     <dd class="col-sm-8 text-dark fw-medium mb-0"
-                        th:text="${parcela.superficie} + ' ha'">
-                        0.0 ha
+                        th:text="*{superficie != null} ? ${#numbers.formatDecimal(parcela.superficie, 1, 'POINT', 2, 'COMMA')} + ' ha' : '-'">
+                        0,00 ha
                     </dd>
 
                     <div class="col-12">
@@ -73,8 +80,9 @@
                         Cultivo
                     </dt>
                     <dd class="col-sm-8 text-dark fw-medium mb-0">
-                        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
-                              th:text="${parcela.tipoCultivo?.etiqueta}">
+                        <span th:if="*{tipoCultivo != null}"
+                              class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
+                              th:text="*{tipoCultivo.etiqueta}">
                             Cultivo
                         </span>
                     </dd>
@@ -82,11 +90,26 @@
             </div>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 d-flex flex-wrap gap-2">
             <a th:href="@{/parcelas}"
                class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
-                <i class="bi bi-arrow-left"></i>Volver al listado
+                <i class="bi bi-arrow-left"></i>Volver
             </a>
+
+            <a th:href="@{/parcelas/{id}/editar(id=*{id})}"
+               class="btn btn-outline-primary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-pencil"></i>Editar
+            </a>
+
+            <form th:action="@{/parcelas/{id}/eliminar(id=*{id})}"
+                  method="post"
+                  class="d-inline"
+                  onsubmit="return confirm('¿Seguro que deseas eliminar esta parcela?');">
+                <button type="submit"
+                        class="btn btn-outline-danger px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-trash"></i>Eliminar
+                </button>
+            </form>
         </div>
     </div>
 </section>

@@ -2,6 +2,7 @@
 package com.daw.parcelas.service;
 
 
+import com.daw.parcelas.excepcion.RecursoNoEncontradoException;
 import com.daw.parcelas.model.Parcela;
 import com.daw.parcelas.model.TipoCultivo;
 import com.daw.parcelas.repository.ParcelaRepository;
