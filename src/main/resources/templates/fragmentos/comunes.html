@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header th:fragment="barraSuperior"
+        class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow agro-navbar">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 fw-bold"
+       th:href="@{/}">
+        <i class="bi bi-flower1 me-2"></i>AgroTech
+    </a>
+    <button class="navbar-toggler position-absolute d-md-none collapsed"
+            type="button" data-bs-toggle="collapse"
+            data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</header>
+
+<nav id="sidebarMenu" th:fragment="menuLateral(seccion)"
+     class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+    <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${seccion == 'dashboard'} ? 'active'"
+                   th:href="@{/}">
+                    <i class="bi bi-speedometer2 me-2"></i>Panel
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${seccion == 'parcelas'} ? 'active'"
+                   th:href="@{/parcelas}">
+                    <i class="bi bi-map me-2"></i>Parcelas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${seccion == 'sensores'} ? 'active'"
+                   th:href="@{/sensors}">
+                    <i class="bi bi-cpu me-2"></i>Sensores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"
+                   th:classappend="${seccion == 'produccion'} ? 'active'"
+                   th:href="@{/produccion}">
+                    <i class="bi bi-basket me-2"></i>Producción
+                </a>
+            </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+            <span>Accesos Rápidos</span>
+        </h6>
+
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a class="nav-link text-success" th:href="@{/parcelas/nueva}">
+                    <i class="bi bi-plus-circle me-2"></i>Nueva parcela
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-success" th:href="@{/sensors/nuevo}">
+                    <i class="bi bi-plus-circle me-2"></i>Nuevo sensor
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-success" th:href="@{/produccion/nuevo}">
+                    <i class="bi bi-plus-circle me-2"></i>Registrar producción
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div th:fragment="mensajes" th:if="${mensaje}"
+     class="alert alert-success alert-dismissible fade show" role="alert">
+    <span th:text="${mensaje}">Operación realizada</span>
+    <button type="button" class="btn-close"
+            data-bs-dismiss="alert" aria-label="Cerrar"></button>
+</div>
+
+<button th:fragment="botonEliminar(url, nombre)"
+        type="button"
+        class="btn btn-sm btn-outline-danger"
+        title="Eliminar"
+        data-bs-toggle="modal"
+        data-bs-target="#modalEliminar"
+        th:attr="data-url=${url},data-nombre=${nombre}">
+    <i class="bi bi-trash"></i>
+</button>
+
+<div th:fragment="modalEliminar" class="modal fade" id="modalEliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Confirmar eliminación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                ¿Seguro que quieres eliminar <strong id="modalEliminarNombre"></strong>?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="modalEliminarForm" method="post">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:fragment="pie"
+        class="footer mt-auto py-3 text-muted border-top text-center small">
+    <span>©
+        <span th:text="${#temporals.year(#temporals.createToday())}">2026</span>
+        AgroTech - Todos los derechos reservados
+    </span>
+</footer>
+
+</body>
+</html>

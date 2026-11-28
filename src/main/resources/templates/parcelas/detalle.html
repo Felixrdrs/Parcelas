@@ -1,59 +1,117 @@
-<!doctype html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragmentos/base :: pagina(~{::title}, 'parcelas', ~{::section})}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
-    <title>Detalle de Parcela</title>
+    <title th:text="${parcela.nombre} + ' · Detalle de Parcela'">
+        Detalle de Parcela
+    </title>
 </head>
 <body>
+<section th:object="${parcela}">
+    <div class="container-fluid px-0" style="max-width: 700px;">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1 small text-muted">
+                        <li class="breadcrumb-item">
+                            <a th:href="@{/parcelas}"
+                               class="text-decoration-none text-success">
+                                Parcelas
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page"
+                            th:text="*{nombre}">
+                            Nombre de la parcela
+                        </li>
+                    </ol>
+                </nav>
 
-<div class="container mt-4">
-    <div class="d-flex flex-wrap align-items-center justify-content-center lg:justify-content-start">
-        <ul class="nav col-12 lg:col-auto lg:me-auto mb-2 justify-content-center md:mb-0">
-            <li><a th:href="@{/parcelas}" class="nav-link px-2 theme-secondary">Parcelas</a></li>
-        </ul>
-        <form class="col-12 lg:col-auto mb-3 lg:mb-0 lg:me-3" role="search">
-            <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
-        </form>
-        <div class="text-end">
-            <div class="menu">
-                <a class="menu-item" href="#">New project...</a>
-                <a class="menu-item" href="#">Settings</a>
-                <a class="menu-item" href="#">Profile</a>
-                <hr class="menu-divider">
-                <a class="menu-item" href="#">Sign out</a>
+                <div class="d-flex align-items-center gap-2">
+                    <h1 class="h3 fw-bold text-dark mb-0" th:text="*{nombre}">
+                        Nombre de la parcela
+                    </h1>
+                    <span th:if="*{tipoCultivo != null}"
+                          class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
+                          th:text="*{tipoCultivo.etiqueta}">
+                        Cultivo
+                    </span>
+                </div>
             </div>
         </div>
-        <button type="button" class="btn btn-outline theme-secondary">Search</button>
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 p-lg-5 bg-white">
+            <div class="card-body p-0">
+                <dl class="row mb-0 gy-3">
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Identificador
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="*{id}">1</dd>
+
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Ubicación
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="*{ubicacion}">
+                        Ubicación
+                    </dd>
+
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Superficie
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0"
+                        th:text="*{superficie != null} ? ${#numbers.formatDecimal(superficie, 1, 'POINT', 2, 'COMMA')} + ' ha' : '-'">
+                        0,00 ha
+                    </dd>
+
+                    <div class="col-12">
+                        <hr class="text-muted opacity-10 my-1">
+                    </div>
+
+                    <dt class="col-sm-4 text-muted fw-semibold">
+                        Cultivo
+                    </dt>
+                    <dd class="col-sm-8 text-dark fw-medium mb-0">
+                        <span th:if="*{tipoCultivo != null}"
+                              class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-semibold"
+                              th:text="*{tipoCultivo.etiqueta}">
+                            Cultivo
+                        </span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex flex-wrap gap-2">
+            <a th:href="@{/parcelas}"
+               class="btn btn-outline-secondary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-arrow-left"></i>Volver
+            </a>
+
+            <a th:href="@{/parcelas/{id}/editar(id=*{id})}"
+               class="btn btn-outline-primary px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                <i class="bi bi-pencil"></i>Editar
+            </a>
+
+            <form th:action="@{/parcelas/{id}/eliminar(id=*{id})}"
+                  method="post"
+                  class="d-inline"
+                  onsubmit="return confirm('¿Seguro que deseas eliminar esta parcela?');">
+                <button type="submit"
+                        class="btn btn-outline-danger px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2">
+                    <i class="bi bi-trash"></i>Eliminar
+                </button>
+            </form>
+        </div>
     </div>
-</div>
-
-<div class="container mt-4" style="max-width: 600px;">
-
-
-    <h1 th:text="${parcela.nombre}">Nombre de la parcela</h1>
-
-
-    <dl class="mt-3">
-        <dt>Identificador</dt>
-        <dd th:text="${parcela.id}"></dd>
-
-        <dt>Ubicación</dt>
-        <dd th:text="${parcela.ubicacion}"></dd>
-
-        <dt>Superficie</dt>
-        <dd th:text="${parcela.superficie} + ' ha'"></dd>
-
-        <dt>Cultivo</dt>
-        <dd th:text="${parcela.tipoCultivo?.etiqueta}"></dd>
-    </dl>
-
-
-    <a th:href="@{/parcelas}" class="btn btn-outline-secondary mt-3">Volver al listado</a>
-
-</div>
-
-<script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+</section>
 </body>
 </html>
